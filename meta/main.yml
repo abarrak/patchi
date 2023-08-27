@@ -1,0 +1,21 @@
+galaxy_info:
+  author: Abdullah Barrak
+  description: A simple rolling updates with history for updating OS level packages (patching).
+
+  license: MIT
+
+  min_ansible_version: '2.6'
+
+  platforms:
+  - name: "EL"
+    versions:
+    - "7"
+    - "8"
+    - "9"
+  - name: OracleLinux
+    versions:
+    - all
+
+  galaxy_tags: []
+
+dependencies: []

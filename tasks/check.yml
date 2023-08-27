@@ -1,0 +1,22 @@
+---
+- name: Check the available updates.
+  ansible.builtin.yum:
+    list: updates
+    state: latest
+    update_cache: yes
+  register: yum_all_output
+
+- name: Show Full Results
+  debug:
+    var: yum_all_output
+ 
+- name: List packages that will be upgraded on TEST servers
+  ansible.builtin.debug:
+    msg: "{{ yum_all_output.results | map(attribute='name') | list }}"
+ 
+- name: Wait for confirmation
+  ansible.builtin.pause:
+    prompt: |
+      The packages listed above will be upgraded. Do you want to continue ?
+      -> Press RETURN to continue.
+      -> Press Ctrl+c and then "a" to abort.

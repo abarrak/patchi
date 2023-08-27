@@ -1,0 +1,25 @@
+---
+supported_distros:
+- 'CentOS'
+- 'Red Hat Enterprise Linux'
+- 'RedHat'
+- 'OracleLinux'
+
+# A flag to perform wildcard update to all packages.
+update_all: false
+
+# A flag to perform all security related updates.
+update_security_only: false
+
+# A flag to update all groups
+update_all_groups: false
+
+## Controlled updates.
+#
+# A list of package names and optionally versions.
+# - { name: , version: }
+package_list: []
+
+# A list of package groups and optionally versions.
+# - { name: , version: }
+group_list: []

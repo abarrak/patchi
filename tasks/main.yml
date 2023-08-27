@@ -1,0 +1,11 @@
+# main tasks file for patchi
+- name: Exit if not supported distro
+  fail:
+    msg: "OS version is not supported!"
+  when: ansible_facts['distribution'] is not in supported_distros
+
+- name: Check and Confirm
+  include_tasks: check.yml
+
+- name: Apply patches
+  include_tasks: upgrade.yml

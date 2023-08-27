@@ -1,0 +1,20 @@
+---
+- hosts: 127.0.0.1
+  become: true
+  gather_facts: no
+  vars_files:
+    - ../defaults/main.yml
+  tasks:
+    - setup: {}
+
+    - debug:
+        var: ansible_facts['distribution']
+
+    - name: test role tasks
+      ansible.builtin.include_tasks: ../tasks/main.yml
+
+      vars:
+        update_all: true
+
+  handlers:
+    - import_tasks: ../handlers/main.yml

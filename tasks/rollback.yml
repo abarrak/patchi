@@ -1,0 +1,3 @@
+---
+- name: Rollback the last package transaction
+  ansible.builtin.shell: yum history undo

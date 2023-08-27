@@ -1,0 +1,5 @@
+---
+# handlers file for patchi
+- name: Reboot server
+  reboot:
+    reboot_timeout: 300

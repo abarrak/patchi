@@ -1,0 +1,42 @@
+---
+- name: Upgrade tasks
+  become: true
+  block:
+    - name: Upgrade all system packages
+      ansible.builtin.package:
+        name: "*"
+        state: latest
+      when: update_all is defined and update_all == True
+
+    - name: Upgrade specific set of packages packages
+      ansible.builtin.package:
+        name: "{{ item.name }}"
+        state: "{{ item.version | default('latest') }}"
+      when: package_list and len(package_list) > 0
+      loop: "{{ package_list }}"
+
+    - name: Upgrade all package groups
+      ansible.builtin.yum:
+        name: "@*"
+        state: latest
+      when: update_all_groups
+
+    - name: Upgrade specific set of package groups
+      ansible.builtin.package:
+        name: "{{ item.name }}"
+        state: "{{ item.version | default('latest') }}"
+      when: group_list and len(group_list) > 0
+      loop: "{{ group_list }}"
+
+    - name: Check if a reboot is required
+      ansible.builtin.command: needs-restarting -r
+      become: true
+      register: reg_reboot_required
+      ignore_errors: true
+      failed_when: false
+      changed_when: reg_reboot_required.rc != 0
+      notify:
+        - Reboot server
+  rescue:
+    - ansible.builtin.debug:
+        msg: "Upgrade operation failed. Please check the play logs for details."
